@@ -1,0 +1,95 @@
+//////////// Функции опросов датчиков и их преобразования
+void TempToArray() {  // вывод температуры с датчика BMP/BME280 на экран
+  bmp280.beginI2C();
+  FtempH = (bmp280.readTempC()) + o.cor_tempH;
+  tempH = FtempH;
+  Serial.println((String)tempH + " | " + FtempH);
+  Dots(!Dot);
+  Digit(digits[10], segment_4);  // символ градуса
+  int digit = abs(tempH % 10);
+  Digit(digits[digit], segment_3);
+  digit = tempH / 10;
+  if (digit == 0) Digit(digits[12], segment_2);  // если впереди ноль, то выключаем его
+  else
+    Digit(digits[digit], segment_2);  // иначе показываем как есть
+  Digit(digits[12], segment_1);       // отключаем 1 сегмент
+};
+
+void TempStreetToArray() {                            // вывод уличной температуры на экран
+  sensors.requestTemperatures();                      // опрос датчика уличной температуры
+  FtempS = sensors.getTempCByIndex(0) + o.cor_tempS;  // чтение уличной температуры с датчика 0, аналогично следующий будет 1
+  tempS = FtempS;
+  Serial.println((String)tempS + " | " + FtempS);
+  Dots(!Dot);
+  Digit(digits[10], segment_4);  // символ градуса
+  int digit = abs(tempS % 10);
+  Digit(digits[digit], segment_3);
+  digit = abs(tempS / 10);
+  if (digit == 0) Digit(digits[12], segment_2);  // если впереди ноль, то выключаем его
+  else
+    Digit(digits[digit], segment_2);              // иначе показываем как есть
+  if (tempS <= -1) Digit(digits[13], segment_1);  // если < или = -1, то показываем -
+  else
+    Digit(digits[12], segment_1);  // иначе выключаем 1 сегмент
+};
+/*
+void TempStreetToArray() {                       // вывод уличной температуры на экран Float
+  sensors.requestTemperatures();                      // опрос датчика уличной температуры
+  FtempS = sensors.getTempCByIndex(0) + o.cor_tempS;  // чтение уличной температуры с датчика 0, аналогично следующий будет 1
+  tempS = FtempS;
+  Serial.println((String)tempS + " | " + FtempS);
+  Dots(!Dot);
+  int a = FtempS * 10;   //25.43 -> 254
+  Serial.println(a);
+  int digit = abs(a % 10) ; //254 -> 4
+  Serial.println(digit);
+  Digit(digits[digit], segment_4);  // символ градуса
+  digit = abs((a % 100)/10);   // 254 -> 54 -> 5
+  Serial.println(digit);
+  Digit(digits[digit], segment_3);
+  digit = abs(a / 100); // 254 -> 2
+  Serial.println(digit);
+  if (digit == 0) Digit(digits[12], segment_2);  // если впереди ноль, то выключаем его
+  else
+    Digit(digits[digit], segment_2);              // иначе показываем как есть
+  if (tempS <= -1) Digit(digits[13], segment_1);  // если < или = -1, то показываем -
+  else
+    Digit(digits[12], segment_1);  // иначе выключаем 1 сегмент
+};*/
+
+void PressToArray() {  // вывод давления на экран с датчика BMP/BME280
+  bmp280.beginI2C();
+  Fpres = (bmp280.readFloatPressure() * 0.0075) + o.cor_pres;
+  pres = Fpres;
+  Serial.println(pres);
+  Dots(!Dot);
+  int digit = pres % 10;
+  Digit(digits[digit], segment_4);
+  digit = pres % 100 / 10;
+  Digit(digits[digit], segment_3);
+  digit = pres / 100;
+  Digit(digits[digit], segment_2);
+  if (c.prs) {
+    Digit(digits[14], segment_1);  // показываем символ P
+  } else {
+    Digit(digits[12], segment_1);  // отключаем первый сегмент
+  }
+};
+
+void HumToArray() {  // вывод влажности с датчика BME280 на экран
+  bmp280.beginI2C();
+  hum = (bmp280.readFloatHumidity()) + o.cor_hum;
+  Serial.println(hum);
+  Dots(!Dot);
+  if (c.hmd) {
+    Digit(digits[16], segment_4);  // символ %  включен
+    Digit(digits[15], segment_3);
+  } else {
+    Digit(digits[12], segment_4);  // символ % выключен
+    Digit(digits[12], segment_3);
+  }
+  int digit = hum % 10;
+  Digit(digits[digit], segment_2);  // 2 сегмент
+  digit = hum / 10;
+  Digit(digits[digit], segment_1);  // 1 сегмент
+};
