@@ -1,5 +1,6 @@
 //////////// Функция времени
 int GetTime() {
+leds[NUM_LEDS]=0;
   if (c.rtc_check) {
     DateTime now = rtc.getTime();
     hour = now.hour;
