@@ -1,6 +1,5 @@
 //////////// Функция времени
 int GetTime() {
-leds[NUM_LEDS]=0;
   if (c.rtc_check) {
     DateTime now = rtc.getTime();
     hour = now.hour;
@@ -30,7 +29,8 @@ leds[NUM_LEDS]=0;
 // }
 
 void TimeToArray() {    // вывод времени на экран
-  int Now = GetTime();  // получаем время
+  leds[NUM_LEDS]=0;
+int Now = GetTime();  // получаем время
   boolean change_color_flag = false;
   for (int i = 1; i <= 4; i++) {  // 4 сегмента
     int digit = Now % 10;         // получаем последнюю цифру в времени
