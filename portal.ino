@@ -156,7 +156,6 @@ void build() {
     GP.SYSTEM_INFO();  // выводит таблицу системной информации
     GP_VERSION;
     GP.SYSTEM_INFO(Version_Firmware);             // + версия вашей программы (в таблице появится строка Version с указанным текстом), [строка]
-
   }
   GP.UI_END();
   GP.BUILD_END();
