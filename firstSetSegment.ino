@@ -1,10 +1,10 @@
 //////////// настройка сегментов и точек
- void firstSetSegment(){
+void firstSetSegment() {
 
-  segment_4 = NUM_LEDS - LEDS_IN_SEGMENT * 7;
-  segment_3 = NUM_LEDS - LEDS_IN_SEGMENT * 14;
-  segment_2 = NUM_LEDS - LEDS_IN_SEGMENT * 21 - DOTS_NUM;
-  segment_1 = NUM_LEDS - LEDS_IN_SEGMENT * 28 - DOTS_NUM;
+  segment_4 = (NUM_LEDS - DOT_TEMP) - LEDS_IN_SEGMENT * 7;
+  segment_3 = (NUM_LEDS - DOT_TEMP) - LEDS_IN_SEGMENT * 14;
+  segment_2 = (NUM_LEDS - DOT_TEMP) - LEDS_IN_SEGMENT * 21 - DOTS_NUM;
+  segment_1 = (NUM_LEDS - DOT_TEMP) - LEDS_IN_SEGMENT * 28 - DOTS_NUM;
 
   if (DOTS_NUM == 2) {
     dot_1 = LEDS_IN_SEGMENT * 14;
@@ -31,4 +31,4 @@
     dot_7 = (LEDS_IN_SEGMENT * 14) + 6;
     dot_8 = (LEDS_IN_SEGMENT * 14) + 7;
   }
- }
+}

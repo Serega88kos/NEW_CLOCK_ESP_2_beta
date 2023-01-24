@@ -29,8 +29,10 @@ int GetTime() {
 // }
 
 void TimeToArray() {    // вывод времени на экран
-  leds[NUM_LEDS]=0;
-int Now = GetTime();  // получаем время
+  int Now = GetTime();  // получаем время
+  if (DOT_TEMP == 1) {
+    leds[NUM_LEDS] = CRGB(0, 0, 0);
+  }
   boolean change_color_flag = false;
   for (int i = 1; i <= 4; i++) {  // 4 сегмента
     int digit = Now % 10;         // получаем последнюю цифру в времени
