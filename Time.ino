@@ -31,7 +31,7 @@ int GetTime() {
 void TimeToArray() {    // вывод времени на экран
   int Now = GetTime();  // получаем время
   if (DOT_TEMP == 1) {
-    leds[NUM_LEDS] = CRGB(0, 0, 0);
+    leds[NUM_LEDS] = 0x000000;
   }
   boolean change_color_flag = false;
   for (int i = 1; i <= 4; i++) {  // 4 сегмента

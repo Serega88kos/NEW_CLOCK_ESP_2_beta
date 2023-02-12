@@ -1,6 +1,9 @@
 //////////// Функции опросов датчиков и их преобразования
 void TempToArray() {  // вывод температуры с датчика BMP/BME280 на экран
   bmp280.beginI2C();
+  if (DOT_TEMP == 1) {
+    leds[NUM_LEDS] = 0x000000;
+  }
   FtempH = (bmp280.readTempC()) + o.cor_tempH;
   tempH = FtempH;
   Serial.println((String)tempH + " | " + FtempH);
@@ -55,6 +58,9 @@ void TempStreetToArray() {                            // вывод улично
 
 void PressToArray() {  // вывод давления на экран с датчика BMP/BME280
   bmp280.beginI2C();
+  if (DOT_TEMP == 1) {
+    leds[NUM_LEDS] = 0x000000;
+  }
   Fpres = (bmp280.readFloatPressure() * 0.0075) + o.cor_pres;
   pres = Fpres;
   Serial.println(pres);
@@ -74,6 +80,9 @@ void PressToArray() {  // вывод давления на экран с дат�
 
 void HumToArray() {  // вывод влажности с датчика BME280 на экран
   bmp280.beginI2C();
+  if (DOT_TEMP == 1) {
+    leds[NUM_LEDS] = 0x000000;
+  }
   hum = (bmp280.readFloatHumidity()) + o.cor_hum;
   Serial.println(hum);
   Dots(!Dot);
