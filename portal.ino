@@ -2,7 +2,7 @@
 void build() {
   GP.BUILD_BEGIN(GP_LIGHT);
   GP.PAGE_TITLE("WEB Clock");
-  GP.UI_BEGIN("Меню", "/,/wifi,/clock,/other,/monitoring,/DFP,/ota,/faq,/restart", "Начало,Настройки WiFi,Настройки часов,Различные настройки,Мониторинг,DFP,Прошивка,Справка,Перезагрузка", GP_GREEN, 400);
+  GP.UI_BEGIN("Меню", "/,/wifi,/clock,/other,/monitoring,/dfp,/ota,/faq,/restart", "Начало,Настройки WiFi,Настройки часов,Различные настройки,Мониторинг,DFP,Прошивка,Справка,Перезагрузка", GP_GREEN, 400);
 
   /////WIFI
   if (ui.uri() == "/wifi") {
@@ -118,7 +118,7 @@ void build() {
   }
 
   /////DFP
-  else if (ui.uri() == "/ota") {
+  else if (ui.uri() == "/dfp") {
     GP.TITLE("Настройки DFP");
     GP.FORM_BEGIN("/kuku");
     GP.CHECK("kuku_check", r.status_kuku);
