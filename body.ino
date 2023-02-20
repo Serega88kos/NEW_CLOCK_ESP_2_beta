@@ -30,11 +30,14 @@ void body() {
       case 4:
         HumToString();
         break;
+      case 5:
+        DateToString();
+        break;
     }
   } else {
     ch_tmr = millis();
     mode++;
-    if (mode > 4) mode = 0;
+    if (mode > 5) mode = 0;
     if (sizeof(c.orderDisplay) == mode) mode = 0;
   }
   static uint32_t Ftiming;
@@ -112,16 +115,20 @@ void timeToStringDots() {
   }
   if ((millis() - tmr1) < t_sec) return;
   tmr1 = millis();
-  //char temp[10];
-  //uint32_t nt = millis() / 1000; //получили секунды
-  //static int8_t old_s = 255;
-  //int8_t s = nt % 60;
   showDot = !showDot;
   hasChange = true;
-  //int8_t m = nt / 60 % 60;
-  //int8_t h = nt / 3600 % 24;
   if (showDot)
     Dots(Dot);
   else
     Dots(!Dot);
+}
+
+void DateToString() {
+  static uint32_t tmr1 = millis() - c.periodDisplay[5] * 1000;
+  if (millis() - tmr1 < (c.periodDisplay[5] * 1100)) return;
+  tmr1 = millis();
+  hasChange = true;
+  if (!hasChange) return;
+  hasChange = false;
+  DateToArray();
 }

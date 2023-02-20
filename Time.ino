@@ -5,10 +5,12 @@ int GetTime() {
     hour = now.hour;
     minute = now.minute;
     second = now.second;
-    day = now.day;
+    day = now.date;
     month = now.month;
     year = now.year;
     Serial.println((String)hour + ":" + minute + ":" + second);
+    Serial.println((String)day + "." + month + "." + year);
+
     return (hour * 100 + minute);
   } else {
     hour = ntp.hour();
@@ -21,12 +23,6 @@ int GetTime() {
     return (hour * 100 + minute);
   }
 }
-// void clock_time() {
-//   tmElements_t tm;
-//   hour = tm.Hour;
-//   minute = tm.Minute;
-//   second = tm.Second;
-// }
 
 void TimeToArray() {    // вывод времени на экран
   int Now = GetTime();  // получаем время

@@ -98,3 +98,15 @@ void HumToArray() {  // вывод влажности с датчика BME280 �
   digit = hum / 10;
   Digit(digits[digit], segment_1);  // 1 сегмент
 };
+
+void DateToArray(){
+  Dots(!Dot);
+  int digit = day % 10;
+  Digit(digits[digit], segment_2);  // 2 сегмент
+  digit = day / 10;
+  Digit(digits[digit], segment_1);  // 1 сегмент
+  digit = month % 10;
+  Digit(digits[digit], segment_4);  // 4 сегмент
+  digit = month / 10;
+  Digit(digits[digit], segment_3);  // 3 сегмент
+}

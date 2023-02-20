@@ -2,7 +2,7 @@
 void build() {
   GP.BUILD_BEGIN(GP_LIGHT);
   GP.PAGE_TITLE("WEB Clock");
-  GP.UI_BEGIN("Меню", "/,/wifi,/clock,/other,/monitoring,/ota,/faq,/restart", "Начало,Настройки WiFi,Настройки часов,Различные настройки,Мониторинг,Прошивка,Справка,Перезагрузка", GP_GREEN, 400);
+  GP.UI_BEGIN("Меню", "/,/wifi,/clock,/other,/monitoring,/DFP,/ota,/faq,/restart", "Начало,Настройки WiFi,Настройки часов,Различные настройки,Мониторинг,DFP,Прошивка,Справка,Перезагрузка", GP_GREEN, 400);
 
   /////WIFI
   if (ui.uri() == "/wifi") {
@@ -116,6 +116,33 @@ void build() {
     GP.BREAK();
     GP.FORM_END();
   }
+
+  /////DFP
+  else if (ui.uri() == "/ota") {
+    GP.TITLE("Настройки DFP");
+    GP.FORM_BEGIN("/kuku");
+    GP.CHECK("kuku_check", r.status_kuku);
+    GP.LABEL("Вкл/Выкл");
+    GP.BREAK();
+    M_BLOCK(GP_THIN, "", "Часы кукования",
+            GP.LABEL("С ");
+            GP.NUMBER("sta_ku", "", r.start_kuku);
+            GP.LABEL("До");
+            GP.NUMBER("sto_ku", "", r.stop_kuku);
+            GP.BREAK();
+            GP.LABEL("Включительно", ""););
+    M_BLOCK(GP_THIN, "", "Что воспроизводить",
+            GP.CHECK("kuku_mp3_check", r.kuku_mp3_check);
+            GP.LABEL("Кукушку");
+            GP.BREAK();
+            GP.CHECK("vrem_mp3_check", r.vrem_mp3_check);
+            GP.LABEL("Время");
+            GP.BREAK(););
+    M_BLOCK(GP_THIN, "", "Громкость",
+            GP.SLIDER("grom", r.grom_mp3, 0, 30, 1, 0););
+    GP.SUBMIT("Сохранить/Проверить");
+    GP.FORM_END();
+  }
   /////OTA
   else if (ui.uri() == "/ota") {
     //GP.NAV_TABS_LINKS("/,/wifi,/clock,/other,/monitoring,/ota,/restart", "Дом,WiFi,Часы,Разное,Мониторинг,OTA,RST");
@@ -155,7 +182,7 @@ void build() {
     GP.BREAK();
     GP.SYSTEM_INFO();  // выводит таблицу системной информации
     GP_VERSION;
-    GP.SYSTEM_INFO(Version_Firmware);             // + версия вашей программы (в таблице появится строка Version с указанным текстом), [строка]
+    GP.SYSTEM_INFO(Version_Firmware);  // + версия вашей программы (в таблице появится строка Version с указанным текстом), [строка]
   }
   GP.UI_END();
   GP.BUILD_END();
@@ -195,8 +222,8 @@ void action() {
       String prd, ord;
       ui.copyString("periodDisplay", prd);
       ui.copyString("orderDisplay", ord);
-      StrToArray(prd, c.periodDisplay, 6);
-      StrToArray(ord, c.orderDisplay, 6);
+      StrToArray(prd, c.periodDisplay, 7);
+      StrToArray(ord, c.orderDisplay, 7);
       ui.copyBool("new_god", c.new_god);
       mem2.updateNow();
     }
