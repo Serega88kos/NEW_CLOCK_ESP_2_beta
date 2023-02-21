@@ -2,7 +2,7 @@
 void build() {
   GP.BUILD_BEGIN(GP_LIGHT);
   GP.PAGE_TITLE("WEB Clock");
-  GP.UI_BEGIN("Меню", "/,/wifi,/clock,/other,/monitoring,/dfp,/ota,/faq,/restart", "Начало,Настройки WiFi,Настройки часов,Различные настройки,Мониторинг,Настройки DFP,Прошивка,Справка,Перезагрузка", GP_GREEN, 400);
+  GP.UI_BEGIN("Меню", "/,/wifi,/clock,/other,/monitoring,/dfp,/ota,/restart", "Начало,Настройки WiFi,Настройки часов,Различные настройки,Мониторинг,Настройки DFP,Прошивка,Перезагрузка", GP_GREEN, 400);
 
   /////WIFI
   if (ui.uri() == "/wifi") {
@@ -71,8 +71,13 @@ void build() {
                     M_TR(GP.LABEL("Задержка, сек"), GP.SPINNER("brg", o.brg, 0, 30, 1, 0, GP_GREEN, "60px", 0));););
     M_BLOCK(GP_THIN, "", "Подстройка",
             M_TABLE("210px,80px", GP_ALS(GP_LEFT, GP_CENTER),
-                    M_TR(GP.LABEL("Усиление"), GP.SPINNER("bright_constant", o.bright_constant, 0, 1000, 100, 0, GP_GREEN, "60px", 0));
-                    M_TR(GP.LABEL("Фильтр"), GP.SPINNER("coef", o.coef, 0, 1, 0.1, 1, GP_GREEN, "60px", 0));););
+                    M_TR(GP.LABEL("Усиление"), GP.SPINNER("bright_constant", o.bright_constant, 0, 1000, 100, 0, GP_GREEN, "60px", 0)););
+            M_TABLE("290px", GP_ALS(GP_LEFT),
+                    M_TR(GP.SPAN("чем меньше константа, тем резче будет прибавляться яркость.");););
+            M_TABLE("210px,80px", GP_ALS(GP_LEFT, GP_CENTER),
+                    M_TR(GP.LABEL("Фильтр"), GP.SPINNER("coef", o.coef, 0, 1, 0.1, 1, GP_GREEN, "60px", 0)););
+            M_TABLE("290px", GP_ALS(GP_LEFT),
+                    M_TR(GP.SPAN("чем больше коэффициент, тем медленнее меняется яркость."););););
     M_BLOCK(GP_THIN, "", "Корректировка показаний",
             M_TABLE("130px,30px,80px", GP_ALS(GP_LEFT, GP_RIGHT, GP_CENTER),
                     M_TR(GP.LABEL("Комнатная"), GP.LABEL(String(FtempH)), GP.SPINNER("cor_tempH", o.cor_tempH, -9, 9, 0.1, 1, GP_GREEN, "60px", 0));
@@ -94,7 +99,12 @@ void build() {
             GP.CHECK("Monitoring", m.Monitoring);
             GP.LABEL("Включить мониторинг"););
     M_BLOCK(GP_THIN, "",
-            M_BOX(GP.LABEL("Интервал, в сек"); GP.NUMBER("delay_narod", "", m.delay_narod, "70px"); GP.HINT("delay_narod", "не менее 300! если нет поддержки сервиса");););
+            M_TABLE("210px,80px", GP_ALS(GP_LEFT, GP_CENTER),
+                    M_TR(GP.LABEL("Интервал, в сек"), GP.NUMBER("delay_narod", "", m.delay_narod, "70px")););
+            M_TABLE("290px", GP_ALS(GP_LEFT),
+                    M_TR(GP.SPAN("не менее 300 сек, иначе получите блок!");););
+            M_TABLE("290px", GP_ALS(GP_LEFT),
+                    M_TR(GP.SPAN("<strong>Исключение: </strong>правило не действует, если есть поддержка сервиса и получены персональные условия."););););
     M_BLOCK(GP_THIN, "", "Отправка показаний датчиков",
             M_BOX(GP.LABEL("Комнатная"); GP.SWITCH("nm_tempH", m.nm_tempH););
             M_BOX(GP.LABEL("Уличная"); GP.SWITCH("nm_tempS", m.nm_tempS););
@@ -130,20 +140,6 @@ void build() {
   else if (ui.uri() == "/ota") {
     GP.TITLE("Прошивка");
     GP.OTA_FIRMWARE("Файл прошивки");
-  }
-  ////FAQ
-  else if (ui.uri() == "/faq") {
-    GP.TITLE("Важная информация!");
-    GP.SPOILER_BEGIN("Различные настройки");
-    GP.SPAN("<strong>Усиление: </strong>чем меньше константа, тем резче будет прибавляться яркость.", GP_LEFT);
-    GP.BREAK();
-    GP.SPAN("<strong>Фильтр: </strong>чем больше коэффициент, тем медленнее меняется яркость.", GP_LEFT);
-    GP.SPOILER_END();
-
-    GP.SPOILER_BEGIN("Мониторинг");
-    GP.SPAN("<strong>Интервал: </strong>не менее 300 сек, иначе получите бан!", GP_LEFT);
-    GP.SPAN("<strong>Исключение: </strong>правило не действует, если есть поддержка сервиса и получены персональные условия.", GP_LEFT);
-    GP.SPOILER_END();
   }
   /////RESTART
   else if (ui.uri() == "/restart") {
