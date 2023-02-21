@@ -2,11 +2,10 @@
 void build() {
   GP.BUILD_BEGIN(GP_LIGHT);
   GP.PAGE_TITLE("WEB Clock");
-  GP.UI_BEGIN("Меню", "/,/wifi,/clock,/other,/monitoring,/dfp,/ota,/faq,/restart", "Начало,Настройки WiFi,Настройки часов,Различные настройки,Мониторинг,DFP,Прошивка,Справка,Перезагрузка", GP_GREEN, 400);
+  GP.UI_BEGIN("Меню", "/,/wifi,/clock,/other,/monitoring,/dfp,/ota,/faq,/restart", "Начало,Настройки WiFi,Настройки часов,Различные настройки,Мониторинг,Настройки DFP,Прошивка,Справка,Перезагрузка", GP_GREEN, 400);
 
   /////WIFI
   if (ui.uri() == "/wifi") {
-    //GP.TITLE("Настройки WiFi");
     GP.FORM_BEGIN("/wifi");
     M_BLOCK(GP_THIN, "", "Настройки WIFI",
             M_TABLE("50px,170px", GP_ALS(GP_LEFT, GP_RIGHT),
@@ -18,9 +17,7 @@ void build() {
 
   /////CLOCK
   else if (ui.uri() == "/clock") {
-    //GP.TITLE("Настройки часов");
     GP.ICON_SUPPORT();
-
     GP.JQ_SUPPORT();
     GP.JQ_UPDATE_BEGIN(1000);
     if (!c.rtc_check) {
@@ -32,7 +29,6 @@ void build() {
               M_TR(GP.LABEL("rtc"), GP.LABEL(rtc.getTimeString()); GP.LABEL(rtc.getDateString());, GP.ICON_BUTTON("sync", "refresh")););
     }
     GP.JQ_UPDATE_END();
-
     GP.FORM_BEGIN("/clock");
     M_BLOCK(GP_THIN, "", "Настройки часов",
             M_BOX(GP.LABEL("Сервер"); GP.TEXT("host", "", c.host, "200px"); GP.HINT("host", "Введите имя сервера"););
@@ -61,28 +57,22 @@ void build() {
 
   /////OTHER
   else if (ui.uri() == "/other") {
-    //GP.SEND(F("<style>td{border:1px solid}</style>"));
-    //GP.TITLE("Различные настройки");
-    //GP.NAV_TABS_LINKS("/,/wifi,/clock,/other,/monitoring,/ota,/restart", "Дом,WiFi,Часы,Разное,Мониторинг,OTA,RST");
     GP.FORM_BEGIN("/other");
     M_BLOCK(GP_THIN, "",
             GP.CHECK("auto_bright", o.auto_bright);
             GP.LABEL("Автояркость"););
     M_BLOCK(GP_THIN, "", "Тип датчика",
             M_BOX(GP.LABEL("Аналог"); GP.SWITCH("type_brg", o.type_brg); GP.LABEL("Цифра");););
-
     M_BLOCK(GP_THIN, "", "Яркость",
             M_TABLE("210px,80px", GP_ALS(GP_LEFT, GP_CENTER),
                     M_TR(GP.LABEL("Текущая"), GP.LABEL(String(new_bright_f)));
                     M_TR(GP.LABEL("Минимальная"), GP.SPINNER("min_bright", o.min_bright, 1, 250, 1, 0, GP_GREEN, "60px", 0));
                     M_TR(GP.LABEL("Максимальная"), GP.SPINNER("max_bright", o.max_bright, 10, 255, 1, 0, GP_GREEN, "60px", 0));
                     M_TR(GP.LABEL("Задержка, сек"), GP.SPINNER("brg", o.brg, 0, 30, 1, 0, GP_GREEN, "60px", 0));););
-
     M_BLOCK(GP_THIN, "", "Подстройка",
             M_TABLE("210px,80px", GP_ALS(GP_LEFT, GP_CENTER),
                     M_TR(GP.LABEL("Усиление"), GP.SPINNER("bright_constant", o.bright_constant, 0, 1000, 100, 0, GP_GREEN, "60px", 0));
                     M_TR(GP.LABEL("Фильтр"), GP.SPINNER("coef", o.coef, 0, 1, 0.1, 1, GP_GREEN, "60px", 0));););
-
     M_BLOCK(GP_THIN, "", "Корректировка показаний",
             M_TABLE("130px,30px,80px", GP_ALS(GP_LEFT, GP_RIGHT, GP_CENTER),
                     M_TR(GP.LABEL("Комнатная"), GP.LABEL(String(FtempH)), GP.SPINNER("cor_tempH", o.cor_tempH, -9, 9, 0.1, 1, GP_GREEN, "60px", 0));
@@ -95,8 +85,6 @@ void build() {
 
   /////MONITORING
   else if (ui.uri() == "/monitoring") {
-    //GP.TITLE("Народный мониторинг.");
-    //GP.NAV_TABS_LINKS("/,/wifi,/clock,/other,/monitoring,/ota,/restart", "Дом,WiFi,Часы,Разное,Мониторинг,OTA,RST");
     GP.FORM_BEGIN("/monitoring");
     M_BLOCK(GP_THIN, "",
             GP.LABEL("narodmon.ru");
@@ -120,49 +108,44 @@ void build() {
   /////DFP
   else if (ui.uri() == "/dfp") {
     GP.TITLE("Настройки DFP");
-    GP.FORM_BEGIN("/kuku");
-    GP.CHECK("kuku_check", r.status_kuku);
-    GP.LABEL("Вкл/Выкл");
-    GP.BREAK();
-    M_BLOCK(GP_THIN, "", "Часы кукования",
-            GP.LABEL("С ");
-            GP.NUMBER("sta_ku", "", r.start_kuku);
-            GP.LABEL("До");
-            GP.NUMBER("sto_ku", "", r.stop_kuku);
-            GP.BREAK();
-            GP.LABEL("Включительно", ""););
-    M_BLOCK(GP_THIN, "", "Что воспроизводить",
-            GP.CHECK("kuku_mp3_check", r.kuku_mp3_check);
-            GP.LABEL("Кукушку");
-            GP.BREAK();
-            GP.CHECK("vrem_mp3_check", r.vrem_mp3_check);
-            GP.LABEL("Время");
-            GP.BREAK(););
+    GP.FORM_BEGIN("/dfp");
+    M_BLOCK(GP_THIN, "",
+            GP.CHECK("status_kuku", r.status_kuku);
+            GP.LABEL("Включить модуль"););
+    M_BLOCK(GP_THIN, "", "Часы работы",
+            GP.LABEL("с");
+            GP.SELECT("start_kuku", "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23", r.start_kuku);
+            GP.LABEL("до");
+            GP.SELECT("stop_kuku", "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23", r.stop_kuku););
+    M_BLOCK(GP_THIN, "", "Режимы",
+            M_TABLE("15px,170px", GP_ALS(GP_LEFT, GP_LEFT),
+                    M_TR(GP.CHECK("kuku_mp3_check", r.kuku_mp3_check), GP.LABEL("Кукушка"));
+                    M_TR(GP.CHECK("vrem_mp3_check", r.vrem_mp3_check), GP.LABEL("Время"));););
     M_BLOCK(GP_THIN, "", "Громкость",
-            GP.SLIDER("grom", r.grom_mp3, 0, 30, 1, 0););
-    GP.SUBMIT("Сохранить/Проверить");
+            GP.SLIDER("grom_mp3", r.grom_mp3, 0, 30, 1, 0));
+    GP.SUBMIT("Сохранить");
     GP.FORM_END();
   }
   /////OTA
   else if (ui.uri() == "/ota") {
-    //GP.NAV_TABS_LINKS("/,/wifi,/clock,/other,/monitoring,/ota,/restart", "Дом,WiFi,Часы,Разное,Мониторинг,OTA,RST");
     GP.TITLE("Прошивка");
     GP.OTA_FIRMWARE("Файл прошивки");
-    //GP.LABEL (String(error()));
+    GP.FOLDER_UPLOAD("mp3");
+    GP.FILE_MANAGER(&LittleFS);  // передать ссылку на свою ф. систему (&LittleFS, &SPIFFS..) выводит список файлов из Flash памяти с кнопками для удаления (нужно настроить delete)
   }
   ////FAQ
   else if (ui.uri() == "/faq") {
     GP.TITLE("Важная информация!");
-    GP.LABEL("Разное:");
+    GP.SPOILER_BEGIN("Различные настройки");
+    GP.SPAN("<strong>Усиление: </strong>чем меньше константа, тем резче будет прибавляться яркость.", GP_LEFT);
     GP.BREAK();
-    GP.SPAN("Усиление: чем меньше константа, тем резче будет прибавляться яркость.");
-    GP.BREAK();
-    GP.SPAN("Фильтр: чем больше коэффициент, тем медленнее меняется яркость.");
-    GP.BREAK();
-    GP.LABEL("Мониторинг:");
-    GP.SPAN("Интервал: не менее 300 сек, иначе получите бан!");
-    GP.SPAN("Правило не действует, если есть поддержка сервиса и получены персональные условия.");
+    GP.SPAN("<strong>Фильтр: </strong>чем больше коэффициент, тем медленнее меняется яркость.", GP_LEFT);
+    GP.SPOILER_END();
 
+    GP.SPOILER_BEGIN("Мониторинг");
+    GP.SPAN("<strong>Интервал: </strong>не менее 300 сек, иначе получите бан!", GP_LEFT);
+    GP.SPAN("<strong>Исключение: </strong>правило не действует, если есть поддержка сервиса и получены персональные условия.", GP_LEFT);
+    GP.SPOILER_END();
   }
   /////RESTART
   else if (ui.uri() == "/restart") {
@@ -177,11 +160,6 @@ void build() {
   /////INDEX
   else {
     GP.TITLE("Системная информация.");
-    //GP.NAV_TABS_LINKS("/,/wifi,/clock,/other,/monitoring,/ota,/restart", "Дом,WiFi,Часы,Разное,Мониторинг,OTA,RST");
-    GP.FILE_MANAGER(&LittleFS);  // передать ссылку на свою ф. систему (&LittleFS, &SPIFFS..) выводит список файлов из Flash памяти с кнопками для удаления (нужно настроить delete)
-    GP.BREAK();
-    GP.SYSTEM_INFO();  // выводит таблицу системной информации
-    GP_VERSION;
     GP.SYSTEM_INFO(Version_Firmware);  // + версия вашей программы (в таблице появится строка Version с указанным текстом), [строка]
   }
   GP.UI_END();
@@ -189,8 +167,6 @@ void build() {
 }
 
 void action() {
-
-
   if (ui.click()) {
     if (ui.click("sync")) {
       rtcCheck();
@@ -203,6 +179,37 @@ void action() {
       mem5.updateNow();
     }
   }
+  // начало загрузки
+  if (ui.upload()) {
+    Serial.print("Upload: ");
+    Serial.print(ui.fileName());  // имя файла
+    Serial.print(", from: ");
+    Serial.println(ui.uploadName());  // имя формы загрузки
+    // любым способом открыть и передать файл типа File
+    // сохраним в корень по имени файла
+    //ui.saveFile(LittleFS.open('/' + ui.fileName(), "w"));  // в корень, по имени файла
+    //portal.saveFile(LittleFS.open('/' + portal.uploadName(), "w"));   // в корень, по имени формы загрузки
+    // использовать имя формы как каталог, имя файла - как имя файла
+    ui.saveFile(LittleFS.open('/' + ui.uploadName() + '/' + ui.fileName(), "w"));
+  }
+  // успешное окончание загрузки
+  if (ui.uploadEnd()) {
+    Serial.print("Uploaded file: ");
+    Serial.print(ui.fileName());
+    Serial.print(", from: ");
+    Serial.println(ui.uploadName());
+  }
+  // ===== ФАЙЛОВЫЙ МЕНЕДЖЕР =====
+  // обработчик скачивания файлов (для открытия в браузере)
+  if (ui.download()) ui.sendFile(LittleFS.open(ui.uri(), "r"));
+  // обработчик удаления файлов
+  if (ui.deleteFile()) {
+    LittleFS.remove(ui.deletePath());
+    Serial.println(ui.deletePath());
+  }
+  // обработчик переименования файлов
+  if (ui.renameFile()) LittleFS.rename(ui.renamePath(), ui.renamePathTo());
+
   if (ui.form()) {
     if (ui.form("/wifi")) {
       ui.copyStr("ssid", w.ssid);
@@ -251,6 +258,16 @@ void action() {
       ui.copyBool("nm_pres", m.nm_pres);
       ui.copyBool("nm_hum", m.nm_hum);
       mem4.updateNow();
+    }
+    // DFP
+    if (ui.form("/dfp")) {
+      ui.copyBool("status_kuku", r.status_kuku);
+      ui.copyInt("start_kuku", r.start_kuku);
+      ui.copyInt("stop_kuku", r.stop_kuku);
+      ui.copyBool("kuku_mp3_check", r.kuku_mp3_check);
+      ui.copyBool("vrem_mp3_check", r.vrem_mp3_check);
+      ui.copyInt("grom_mp3", r.grom_mp3);
+      mem6.updateNow();
     }
     if (ui.form("/restart")) {
       ESP.restart();

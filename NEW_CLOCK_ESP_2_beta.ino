@@ -15,6 +15,7 @@ EEManager mem1(w);
 EEManager mem2(c);
 EEManager mem3(o);
 EEManager mem4(m);
+EEManager mem6(r);
 #include <microDS3231.h>
 MicroDS3231 rtc;
 
@@ -63,6 +64,7 @@ CRGB ColorTable[NUM_COLORS] = {  // Таблица цветов
 
 /////////////////////////////////////////////
 void setup() {
+  if (!LittleFS.begin()) Serial.println("FS Error");
   Serial.begin(115200);
   EEPROM.begin(2000);
   mem1.begin(0, 'a');
@@ -70,6 +72,7 @@ void setup() {
   mem3.begin(mem2.nextAddr(), 'a');
   mem4.begin(mem3.nextAddr(), 'a');
   mem5.begin(mem4.nextAddr(), 'a');
+  mem6.begin(mem5.nextAddr(), 'a');
 
   Wire.begin();
   bmp280.setI2CAddress(0x76);  //Подключение датчика
@@ -92,10 +95,11 @@ void loop() {
   mem3.tick();
   mem4.tick();
   mem5.tick();
+  mem6.tick();
   ui.tick();
   ntp.tick();
   body();
-   if (DFPlayer_check) { DFPlayer_loop(); }
+  if (DFPlayer_check) { kuku_tick(); }
   static uint32_t timing;
   if (m.Monitoring) {
     if ((millis() - timing) > (m.delay_narod * 1000)) {

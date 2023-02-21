@@ -47,5 +47,9 @@ void wifi_connected() {
     ui.attach(action);
     ui.start(web_start);
     ui.enableOTA(ota_name, ota_pass);
+    ui.uploadAuto(true);    // выключить автозагрузку
+    // ui.deleteAuto(0);    // выключить автоудаление
+    // ui.downloadAuto(0);  // выключить автоскачивание
+    // ui.renameAuto(0);    // выключить автопереименование
   }
 }
