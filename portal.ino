@@ -48,7 +48,7 @@ void build() {
             M_BOX(GP.LABEL("1р/с"); GP.SWITCH("type_sec", c.type_sec); GP.LABEL("2р/с");););
     M_BLOCK(GP_THIN, "", "Режимы часов",
             M_BOX(GP.LABEL("Порядок"); GP.TEXT("orderDisplay", "", arrayToStr(c.orderDisplay), "200px"););
-            GP.SPAN("0 - часы, 1 - комнатная температура, 2 - уличная температура, 3 - давление, 4 - влажность");
+            GP.SPAN("0 - часы, 1 - комнатная температура, 2 - уличная температура, 3 - давление, 4 - влажность, 5 - дата");
             M_BOX(GP.LABEL("Время"); GP.TEXT("periodDisplay", "", arrayToStr(c.periodDisplay), "200px"););
             GP.SPAN("сколько по времени выводить каждый режим, сек"););
     GP.SUBMIT("Сохранить");
@@ -130,8 +130,6 @@ void build() {
   else if (ui.uri() == "/ota") {
     GP.TITLE("Прошивка");
     GP.OTA_FIRMWARE("Файл прошивки");
-    GP.FOLDER_UPLOAD("mp3");
-    GP.FILE_MANAGER(&LittleFS);  // передать ссылку на свою ф. систему (&LittleFS, &SPIFFS..) выводит список файлов из Flash памяти с кнопками для удаления (нужно настроить delete)
   }
   ////FAQ
   else if (ui.uri() == "/faq") {
