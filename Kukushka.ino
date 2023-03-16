@@ -1,10 +1,8 @@
+//[I]░░░▒▒▒▓▓▓ ♫ Кукушка by Romshteks ♫ ▓▓▓▒▒▒░░░[/I]\\
 
+//    [I]░░░▒▒▒▓▓▓ ♪ V2 Без delay ♪ ▓▓▓▒▒▒░░░[/I]    \\
 
-//*░░░▒▒▒▓▓▓ ♫ Кукушка by Romshteks ♫ ▓▓▓▒▒▒░░░*\\
-
-//    *░░░▒▒▒▓▓▓ ♪ V2 Без delay ♪ ▓▓▓▒▒▒░░░*    \\
-
-//      *░░░▒▒▒▓▓▓ ♂ 3 Голоса ♀ ▓▓▓▒▒▒░░░*      \\
+//      [I]░░░▒▒▒▓▓▓ ♂ 3 Голоса ♀ ▓▓▓▒▒▒░░░[/I]      \\
 
 
 void kuku_tick() {
@@ -88,7 +86,10 @@ void Vremy() {
     Vremy_flag = 0;
   }
   if (Vremy_play_flag == 1 && (millis() - VremyTime) >= 3000) {  // Пауза чтобы выговорилась кукушка
-    mp3.playMP3Folder((r.golos * 100) + (hour) ? hour : 24);
+
+    // mp3.playMP3Folder((r.golos * 100) + (hour) ? hour : 24);
+    // mp3.playMP3Folder(hour ? (hour + r.golos * 100) : (24 + r.golos * 100));
+    mp3.playMP3Folder((r.golos * 100) + hour + 1);
     Serial.println((String) " ♫ " + hour + " часов");
 
     if (hour == r.start_kuku) Utro_flag = 1;

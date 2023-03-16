@@ -36,10 +36,16 @@ void TimeToArray() {    // вывод времени на экран
     if (i > 2) {
       cursor -= DOTS_NUM;
     }
-    if ((i == 4) & (digit == 0)) Digit(digits[12], cursor);  // если впереди ноль, то выключаем его, например 01:23 будет как 1:23
-    else
+    if ((i == 4) & (digit == 0)) {
+      if (c.symbol) {               // проверка, включен ли ноль
+        Digit(digits[12], cursor);  // если впереди ноль, то выключаем его, например 01:23 будет как 1:23
+      } else {
+        Digit(digits[0], cursor);  // иначе будет как 01:23
+      }
+    } else {
       Digit(digits[digit], cursor);  // иначе показываем символ
-    if (i == c.change_color) {       // как часто менять цвет
+    }
+    if (i == c.change_color) {  // как часто менять цвет
       if (digit != last_digit) {
         change_color_flag = true;
         last_digit = digit;

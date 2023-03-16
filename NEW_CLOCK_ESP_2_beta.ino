@@ -37,6 +37,7 @@ DallasTemperature sensors(&oneWire_out);                       //уличный 
 #define NUM_LEDS (LEDS_IN_SEGMENT * 28 + DOTS_NUM + DOT_TEMP)  // вычисляем кол-во светодиодов
 CRGB leds[NUM_LEDS];                                           // определение СД ленты
 
+bool Utro_flag, Utro_play_flag, Vecher_flag, Vecher_play_flag, Vremy_flag, Vremy_play_flag;
 bool flag_kuku;
 
 bool Dot = true;                    // переменная для точек
@@ -66,7 +67,7 @@ CRGB ColorTable[NUM_COLORS] = {  // Таблица цветов
 void setup() {
   if (!LittleFS.begin()) Serial.println("FS Error");
   Serial.begin(115200);
-  EEPROM.begin(2000);
+  EEPROM.begin(2500);
   mem1.begin(0, 'a');
   mem2.begin(mem1.nextAddr(), 'a');
   mem3.begin(mem2.nextAddr(), 'a');
@@ -83,7 +84,7 @@ void setup() {
   firstSetSegment();
   wifi_connected();
   rtcCheck();
-  if (DFPlayer_check) { DFPlayer_setup(); }
+  if (r.status_kuku) { DFPlayer_setup(); }
 }
 
 /////////////////////////////////////////////
@@ -99,7 +100,7 @@ void loop() {
   ui.tick();
   ntp.tick();
   body();
-  if (DFPlayer_check) { kuku_tick(); }
+  if (r.status_kuku) { kuku_tick(); }
   static uint32_t timing;
   if (m.Monitoring) {
     if ((millis() - timing) > (m.delay_narod * 1000)) {
