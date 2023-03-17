@@ -1,10 +1,9 @@
 //////////// Функции опросов датчиков и их преобразования
 void TempToArray() {  // вывод температуры с датчика BMP/BME280 на экран
-  bmp280.beginI2C();
   if (DOT_TEMP == 1) {
     leds[NUM_LEDS] = 0x000000;
   }
-  FtempH = (bmp280.readTempC()) + o.cor_tempH;
+  FtempH = (bmp280.readTemperature()) + o.cor_tempH;
   tempH = FtempH;
   Serial.println((String)tempH + " | " + FtempH);
   Dots(!Dot);
@@ -18,9 +17,10 @@ void TempToArray() {  // вывод температуры с датчика BMP
   Digit(digits[12], segment_1);       // отключаем 1 сегмент
 }
 
-void TempStreetToArray() {                            // вывод уличной температуры на экран
-  sensors.requestTemperatures();                      // опрос датчика уличной температуры
-  FtempS = sensors.getTempCByIndex(0) + o.cor_tempS;  // чтение уличной температуры с датчика 0, аналогично следующий будет 1
+void TempStreetToArray() {  // вывод уличной температуры на экран
+  sensors.requestTemp();    // опрос датчика уличной температуры
+  if (sensors.readTemp())
+    FtempS = sensors.getTemp() + o.cor_tempS;  // чтение уличной температуры с датчика 0, аналогично следующий будет 1
   tempS = FtempS;
   Serial.println((String)tempS + " | " + FtempS);
   Dots(!Dot);
@@ -57,11 +57,11 @@ void TempStreetToArray() {                            // вывод улично
 }
 
 void PressToArray() {  // вывод давления на экран с датчика BMP/BME280
-  bmp280.beginI2C();
   if (DOT_TEMP == 1) {
     leds[NUM_LEDS] = 0x000000;
   }
-  Fpres = (bmp280.readFloatPressure() * 0.0075) + o.cor_pres;
+  float pressure = bmp280.readPressure();
+  Fpres = pressureToMmHg(pressure) + o.cor_pres;
   pres = Fpres;
   Serial.println(pres);
   Dots(!Dot);
@@ -79,11 +79,10 @@ void PressToArray() {  // вывод давления на экран с дат�
 }
 
 void HumToArray() {  // вывод влажности с датчика BME280 на экран
-  bmp280.beginI2C();
   if (DOT_TEMP == 1) {
     leds[NUM_LEDS] = 0x000000;
   }
-  hum = (bmp280.readFloatHumidity()) + o.cor_hum;
+  hum = bmp280.readHumidity() + o.cor_hum;
   Serial.println(hum);
   Dots(!Dot);
   if (c.hmd) {
@@ -99,7 +98,7 @@ void HumToArray() {  // вывод влажности с датчика BME280 �
   Digit(digits[digit], segment_1);  // 1 сегмент
 }
 
-void DateToArray(){
+void DateToArray() {
   Dots(!Dot);
   int digit = day % 10;
   Digit(digits[digit], segment_2);  // 2 сегмент

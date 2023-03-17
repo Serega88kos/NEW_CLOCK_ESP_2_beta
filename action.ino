@@ -49,7 +49,11 @@ void action() {
       StrToArray(ord, c.orderDisplay, t);
       ui.copyBool("new_god", c.new_god);
       mem2.updateNow();
-      wifi_connected();
+      ntp.end();
+      ntp.setGMT(c.gmt);
+      ntp.setHost(c.host);
+      ntp.begin();
+      rtc.getUnix(c.gmt);
     }
     // остальные
     if (ui.form("/other")) {

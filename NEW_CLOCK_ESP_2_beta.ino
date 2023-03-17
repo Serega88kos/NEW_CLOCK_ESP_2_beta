@@ -26,14 +26,12 @@ DFPlayer mp3;
 
 #include "FastLED.h"
 #include <Wire.h>
-#include "SparkFunBME280.h"
-BME280 bmp280;
-#include "OneWire.h"
-#include "DallasTemperature.h"
-// настроим библиотеку 1-Wire для связи с датчиком
-OneWire oneWire_out(ONE_WIRE_BUS_2);
-// создадим объект для работы с библиотекой DallasTemperature
-DallasTemperature sensors(&oneWire_out);                       //уличный ds18b20
+#include <GyverBME280.h>
+GyverBME280 bmp280;
+
+#include <microDS18B20.h>
+MicroDS18B20<ONE_SENSORS_DS> sensors;
+
 #define NUM_LEDS (LEDS_IN_SEGMENT * 28 + DOTS_NUM + DOT_TEMP)  // вычисляем кол-во светодиодов
 CRGB leds[NUM_LEDS];                                           // определение СД ленты
 
@@ -75,10 +73,7 @@ void setup() {
   mem5.begin(mem4.nextAddr(), 'a');
   mem6.begin(mem5.nextAddr(), 'a');
 
-  Wire.begin();
-  bmp280.setI2CAddress(0x76);  //Подключение датчика
-  if (bmp280.beginI2C() == false) Serial.println("Не удалось подключиться к датчику");
-  //  LEDS.setBrightness(50);
+  bmp280.begin();
   FastLED.addLeds<WS2812B, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);  // подключение ленты
   FastLED.setMaxPowerInVoltsAndMilliamps(5, milliamp);
   firstSetSegment();

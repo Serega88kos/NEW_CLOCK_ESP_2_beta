@@ -6,7 +6,7 @@ bool hasChange = false;
 //uint8_t periodDisplay[] = {6,2,2,2,2,};      //сколько по времени выводить каждый режим, сек
 //uint8_t orderDisplay[]  = {0,1,2,3,4};      //порядок вывода режимов
 uint8_t mode = 0;
-bool showDot = false;
+//bool showDot = false;
 
 void body() {
   static uint32_t ch_tmr = millis();  //статическую переменную для хранения времени выполнения текущего режима,
@@ -102,8 +102,10 @@ void timeToString() {
   // hasChange = false;
   TimeToArray();
 }
-static unsigned int t_sec;
+
 void timeToStringDots() {
+  static unsigned int t_sec;
+  static bool showDot = false;
   static uint32_t tmr1 = millis();
   switch (c.type_sec) {
     case 1:

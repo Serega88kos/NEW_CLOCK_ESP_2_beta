@@ -9,7 +9,7 @@ int GetTime() {
     month = now.month;
     year = now.year;
     Serial.println((String)hour + ":" + minute + ":" + second);
-    Serial.println((String)day + "." + month + "." + year);
+    //Serial.println((String)day + "." + month + "." + year);
 
     return (hour * 100 + minute);
   } else {

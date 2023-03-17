@@ -1,11 +1,11 @@
 //////////// НАСТРОЙКИ ////////////
-#define Version_Firmware "2_beta_16"  // версия прошивки
+#define Version_Firmware "2_beta_19"  // версия прошивки
 //   питание платы от БП не выше 5В
 //   DS3231        SDA=>D2 SCL=>D1 питание с 5В БП или с 3.3В
 //   BMP/BME 280   SDA=>D2 SCL=>D1 питание 3.3В
 //   DS18B20 питание 5В, если уличный без модуля ставим резистор между питанием и сигнальным на 4.7К
 
-#define ONE_WIRE_BUS_2 D5  // PIN датчика ds18b20
+#define ONE_SENSORS_DS D5  // PIN датчика ds18b20
 #define LEDS_IN_SEGMENT 4  // задаём сколько у нас светодиодов в сегменте
 #define DOTS_NUM 2         // задаём сколько у нас разделительных точек 2/4/6/8
 #define DOT_TEMP 0         // включаем точку десятых для температуры, 0 или 1
@@ -21,7 +21,6 @@
 #define MP3_SERIAL_TIMEOUT 350     //среднее время ожидания ответа DFPlayer для чипа GD3200B 350 мс..400 мс
 
 //Настройки для DFPlayer
-//В проекте контакты D4 D0 свободны можно их использовать проверено!
 #define MP3_RX_PIN 2               //GPIO2/D4 к DFPlayer Mini TX
 #define MP3_TX_PIN 16              //GPIO16/D0 к DFPlayer Mini RX
 #define MP3_SERIAL_SPEED 9600      //DFPlayer Mini поддерживает только 9600 бод
