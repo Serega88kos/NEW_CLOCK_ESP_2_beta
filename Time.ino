@@ -37,7 +37,7 @@ void TimeToArray() {    // вывод времени на экран
       cursor -= DOTS_NUM;
     }
     if ((i == 4) & (digit == 0)) {
-      if (c.symbol) {               // проверка, включен ли ноль
+      if (!c.symbol) {               // проверка, включен ли ноль
         Digit(digits[12], cursor);  // если впереди ноль, то выключаем его, например 01:23 будет как 1:23
       } else {
         Digit(digits[0], cursor);  // иначе будет как 01:23

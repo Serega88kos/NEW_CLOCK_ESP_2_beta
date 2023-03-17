@@ -38,7 +38,7 @@ void wifi_connected() {
     Serial.println F("WiFi запущен");
     Serial.print("IP адрес: ");
     Serial.println(WiFi.localIP());
-    //ntp.setGMT(c.gmt);
+    ntp.setGMT(c.gmt);
     ntp.setHost(c.host);
     //ntp.setPeriod(3600);
     ntp.begin();
@@ -47,9 +47,5 @@ void wifi_connected() {
     ui.attach(action);
     ui.start(web_start);
     ui.enableOTA(ota_name, ota_pass);
-    ui.uploadAuto(true);    // выключить автозагрузку
-    // ui.deleteAuto(0);    // выключить автоудаление
-    // ui.downloadAuto(0);  // выключить автоскачивание
-    // ui.renameAuto(0);    // выключить автопереименование
   }
 }

@@ -49,6 +49,7 @@ void action() {
       StrToArray(ord, c.orderDisplay, t);
       ui.copyBool("new_god", c.new_god);
       mem2.updateNow();
+      wifi_connected();
     }
     // остальные
     if (ui.form("/other")) {
