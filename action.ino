@@ -45,8 +45,8 @@ void action() {
       ui.copyString("orderDisplay", ord);
       int t = 0.5 * (ord.length() + 3);
       if (t = 0) t = 2;
-      StrToArray(prd, c.periodDisplay, t);
-      StrToArray(ord, c.orderDisplay, t);
+      StrToArray(prd, c.periodDisplay, 7);
+      StrToArray(ord, c.orderDisplay, 7);
       ui.copyBool("new_god", c.new_god);
       mem2.updateNow();
       ntp.end();
