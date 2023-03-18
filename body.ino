@@ -33,6 +33,8 @@ void body() {
       case 5:
         DateToString();
         break;
+      default:
+        break;
     }
   } else {
     ch_tmr = millis();
@@ -91,15 +93,6 @@ void timeToString() {
   static uint32_t tmr1 = millis();
   if (millis() - tmr1 < 500) return;
   tmr1 = millis();
-  //uint32_t nt = millis() / 1000;  //получили секунды
-  // static int8_t old_s = 255;
-  // int8_t s = nt % 60;
-  // if (s != old_s) {
-  //   old_s = s;
-  //   hasChange = true;
-  // } else return;
-  // if (!hasChange) return;
-  // hasChange = false;
   TimeToArray();
 }
 

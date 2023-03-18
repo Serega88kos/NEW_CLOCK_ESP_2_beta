@@ -1,5 +1,5 @@
 //////////// функция освещенности
-void BrightnessCheck() {  
+void BrightnessCheck() {
   static uint32_t last_br = millis();
   if ((millis() - last_br) < o.brg) return;
   last_br = millis();
@@ -17,5 +17,7 @@ void BrightnessCheck() {
       LEDS.setBrightness(new_bright_f);  // установить новую яркость
       //Serial.println((String)"Новая освещенность: " + new_bright_f);
     }
+  } else {
+    LEDS.setBrightness(100);
   }
 }

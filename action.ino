@@ -4,7 +4,7 @@ void action() {
       rtcCheck();
     }
     if (ui.click("hi")) {
-      mp3.playMP3Folder(26);
+      mp3.playMP3Folder(25);
       Serial.println("Test click");
     }
     if (ui.click("yes_rst")) {
@@ -15,7 +15,7 @@ void action() {
       GPcolor color1;
       ui.copyColor("ledColor", color1);
       ledColor = CRGB(color1.r, color1.g, color1.b);
-      mem5.updateNow();
+      mem5.update();
     }
   }
   // настройки WiFi
@@ -26,10 +26,7 @@ void action() {
       mem1.updateNow();
       ESP.restart();
     }
-    // if (ui.form("/color")) {
-    //   ui.copyStr("portalTheme", portalTheme);
-    //   ui.copyStr("colorTheme", colorTheme);
-    // }
+
     // настройки часов
     if (ui.form("/clock")) {
       ui.copyStr("host", c.host);
@@ -43,17 +40,10 @@ void action() {
       String prd, ord;
       ui.copyString("periodDisplay", prd);
       ui.copyString("orderDisplay", ord);
-      int t = 0.5 * (ord.length() + 3);
-      if (t = 0) t = 2;
       StrToArray(prd, c.periodDisplay, 7);
       StrToArray(ord, c.orderDisplay, 7);
       ui.copyBool("new_god", c.new_god);
       mem2.updateNow();
-      ntp.end();
-      ntp.setGMT(c.gmt);
-      ntp.setHost(c.host);
-      ntp.begin();
-      rtc.getUnix(c.gmt);
     }
     // остальные
     if (ui.form("/other")) {
@@ -93,8 +83,5 @@ void action() {
       mp3.setVolume(r.grom_mp3);
       DFPlayer();
     }
-    // if (ui.form("/restart")) {
-    //   ESP.restart();
-    // }
   }
 }

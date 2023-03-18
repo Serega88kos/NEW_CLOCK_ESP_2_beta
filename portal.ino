@@ -31,15 +31,16 @@ void build() {
     GP.JQ_UPDATE_END();
     GP.FORM_BEGIN("/clock");
     M_BLOCK(GP_THIN, "", "Настройки часов", colorTheme,
-            M_BOX(GP.LABEL("Сервер"); GP.TEXT("host", "", c.host, "200px"); GP.HINT("host", "Введите имя сервера"););
-            M_BOX(GP.LABEL("GMT зона"); GP.SPINNER("gmt", c.gmt, -9, 9, 1, 0, colorTheme, "60px", 0); GP.HINT("gmt", "Введите временную зону"););
+            M_BOX(GP.LABEL("Сервер"); GP.TEXT("host", "", c.host, "200px"););
+            M_BOX(GP.LABEL("GMT зона"); GP.SPINNER("gmt", c.gmt, -9, 9, 1, 0, colorTheme, "60px", 0););
+            GP.SPAN("Требуется перезагрузка!");
             GP.CHECK("rtc_check", c.rtc_check, colorTheme); GP.LABEL("Есть модуль RTC?"); GP.BREAK(););
     M_BLOCK(GP_THIN, "", "Цвета", colorTheme,
             GP.LABEL("Смена цвета?");
             GP.SELECT("change_color", "выключена,раз в минуту,каждые 10 минут,каждый час,каждые 10 часов", c.change_color, 1); GP.BREAK();
             GP.LABEL("Выбор цвета на лету");
             GP.COLOR("ledColor", color); GP.BREAK();
-            GP.CHECK("new_god", c.new_god, colorTheme); GP.LABEL("Вкл. новогодний режим?"); GP.BREAK(););
+            GP.CHECK("new_god", c.new_god, colorTheme); GP.LABEL("Вкл. новогодний режим?"););
     M_BLOCK(GP_THIN, "", "Символы", colorTheme,
             M_TABLE("15px,170px", GP_ALS(GP_LEFT, GP_LEFT),
                     M_TR(GP.CHECK("prs", c.prs, colorTheme), GP.LABEL("Символ давления?"));
@@ -49,7 +50,7 @@ void build() {
             M_BOX(GP.LABEL("1р/с"); GP.SWITCH("type_sec", c.type_sec, colorTheme); GP.LABEL("2р/с");););
     M_BLOCK(GP_THIN, "", "Режимы часов", colorTheme,
             M_BOX(GP.LABEL("Порядок"); GP.TEXT("orderDisplay", "", arrayToStr(c.orderDisplay), "200px"););
-            GP.SPAN("0 - часы, 1 - комнатная температура, 2 - уличная температура, 3 - давление, 4 - влажность, 5 - дата");
+            GP.SPAN("0 - часы, 1 - комн. темп, 2 - ул. темп, 3 - давление, 4 - влажность, 5 - дата");
             M_BOX(GP.LABEL("Время"); GP.TEXT("periodDisplay", "", arrayToStr(c.periodDisplay), "200px"););
             GP.SPAN("сколько по времени выводить каждый режим, сек"););
     GP.SUBMIT("Сохранить", colorTheme);
@@ -94,8 +95,7 @@ void build() {
     GP.FORM_BEGIN("/monitoring");
     M_BLOCK(GP_THIN, "", "", colorTheme,
             GP.LABEL("narodmon.ru");
-            GP.BREAK();
-            GP.LABEL(WiFi.macAddress()););
+            GP.BREAK(); GP.LABEL(WiFi.macAddress()););
     M_BLOCK(GP_THIN, "", "", colorTheme,
             GP.CHECK("Monitoring", m.Monitoring, colorTheme);
             GP.LABEL("Включить мониторинг"););
@@ -111,23 +111,17 @@ void build() {
             M_BOX(GP.LABEL("Уличная"); GP.SWITCH("nm_tempS", m.nm_tempS, colorTheme););
             M_BOX(GP.LABEL("Давление"); GP.SWITCH("nm_pres", m.nm_pres, colorTheme););
             M_BOX(GP.LABEL("Влажность"); GP.SWITCH("nm_hum", m.nm_hum, colorTheme);););
-
-    //GP.SEND("<script>function myFunction() { var popup = document.getElementById(\"myPopup\");  popup.classList.toggle(\"show\");}</script>");
-    //GP.LABEL("<div class=\"popup\" onclick=\"myFunction()\" > Click me to toggle the popup ! < span class =\"popuptext\" id=\"myPopup\">A Simple Popup!</span></div>");
-
     GP.SUBMIT("Сохранить", colorTheme);
-    GP.BREAK();
     GP.FORM_END();
   }
 
   /////DFP
   else if (ui.uri() == "/dfp") {
-    GP.TITLE("Настройки DFP");
+    GP.ICON_SUPPORT();
     GP.FORM_BEGIN("/dfp");
-    M_BLOCK(GP_THIN, "", "", colorTheme,
-            GP.CHECK("status_kuku", r.status_kuku, colorTheme);
-            GP.LABEL("Включить модуль");
-            GP.BUTTON_MINI("hi", "Проверить", "hi", colorTheme););
+    M_BLOCK(GP_THIN, "", "Настройки DFP", colorTheme,
+            M_TABLE("10px,70px,10px", GP_ALS(GP_RIGHT, GP_CENTER, GP_LEFT), "80%",
+                    M_TR(GP.CHECK("status_kuku", r.status_kuku, colorTheme), GP.LABEL("Включить модуль"), GP.ICON_BUTTON("hi", "music"));););
     M_BLOCK(GP_THIN, "", "Часы работы", colorTheme,
             GP.LABEL("с");
             GP.SELECT("start_kuku", "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23", r.start_kuku);
@@ -158,8 +152,7 @@ void build() {
   /////RESTART
   else if (ui.uri() == "/restart") {
     M_BLOCK(GP_THIN, "", "Перезагрузить ESP?", colorTheme,
-            M_BOX(GP.BUTTON("yes_rst", "Да", "yes_rst", GP_GREEN_B, "170px");
-                  GP.BUTTON_LINK("/", "Нет", GP_RED_B, "170px");););
+            GP.BUTTON("yes_rst", "Да", "yes_rst", colorTheme, "170px"););
   }
 
   /////INDEX
